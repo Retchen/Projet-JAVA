@@ -48,42 +48,22 @@ public class SeatingPlanApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        LOG.info("Construction table BATIMENT");
-        List<Batiment> batiments = new ArrayList<>();
-        batiments.add(new Batiment("Batiment A"));
-        batiments.add(new Batiment("Batiment B"));
-        batimentRepository.save(batiments);
-        LOG.info("FIN == Construction table BATIMENT");
-
+        LOG.info("Mock des tables sans dépendances");
 
         LOG.info("Construction table TYPE");
         List<Type> types = new ArrayList<>();
         types.add(new Type("Bureau"));
         types.add(new Type("Chaise"));
+        types.add(new Type("Open space"));
         typeRepository.save(types);
         LOG.info("FIN == Construction table TYPE");
-
-
-        LOG.info("Construction table MATERIEL");
-        List<Materiel> materiels = new ArrayList<>();
-        materiels.add(new Materiel("Materiel 1", 1));
-        materiels.add(new Materiel("Materiel 2", 2));
-        materielRepository.save(materiels);
-        LOG.info("FIN == Construction table MATERIEL");
 
         LOG.info("Construction table PARTIE");
         List<Partie> parties = new ArrayList<>();
         parties.add(new Partie("Partie 1"));
         parties.add(new Partie("Partie 2"));
         partieRepository.save(parties);
-        LOG.info("FIN == Construction table MATERIEL");
-
-        LOG.info("Construction table COLLABORATEUR");
-        List<Collaborateur> collaborateurs = new ArrayList<>();
-        collaborateurs.add(new Collaborateur("Collaborateur 1"));
-        collaborateurs.add(new Collaborateur("Collaborateur 2"));
-        collaborateurRepository.save(collaborateurs);
-        LOG.info("FIN == Construction table COLLABORATEUR");
+        LOG.info("FIN == Construction table PARTIE");
 
         LOG.info("Construction table ETAGE");
         List<Etage> etages = new ArrayList<>();
@@ -92,20 +72,50 @@ public class SeatingPlanApplication implements CommandLineRunner {
         etageRepository.save(etages);
         LOG.info("FIN == Construction table ETAGE");
 
+        LOG.info("Construction table COLLABORATEUR");
+        List<Collaborateur> collaborateurs = new ArrayList<>();
+        collaborateurs.add(new Collaborateur("Collaborateur 1"));
+        collaborateurs.add(new Collaborateur("Collaborateur 2"));
+        collaborateurRepository.save(collaborateurs);
+        LOG.info("FIN == Construction table COLLABORATEUR");
+
+
+        LOG.info("Mock des tables avec dépendances");
+
+
+        LOG.info("Construction table BATIMENT");
+        List<Batiment> batiments = new ArrayList<>();
+        batiments.add(new Batiment("Batiment A", 1L, typeRepository.findById(3L)));
+        batiments.add(new Batiment("Batiment B", 2L, typeRepository.findById(3L)));
+        batimentRepository.save(batiments);
+        LOG.info("FIN == Construction table BATIMENT");
+
+        LOG.info("Construction table MATERIEL");
+        List<Materiel> materiels = new ArrayList<>();
+        materiels.add(new Materiel("Materiel 1", typeRepository.findById(1L)));
+        materiels.add(new Materiel("Materiel 2", typeRepository.findById(2L)));
+        materielRepository.save(materiels);
+        LOG.info("FIN == Construction table MATERIEL");
+
         LOG.info("Construction table PLAN");
         List<Plan> plans = new ArrayList<>();
-        plans.add(new Plan("Plan 1"));
-        plans.add(new Plan("Plan 2"));
+        plans.add(new Plan("Plan 1", 1));
+        plans.add(new Plan("Plan 2", 1));
         planRepository.save(plans);
         LOG.info("FIN == Construction table PLAN");
 
         LOG.info("Construction table BUREAU");
         List<Bureau> bureaux = new ArrayList<>();
-        bureaux.add(new Bureau(1));
-        bureaux.add(new Bureau(2));
+        List<Materiel> mockMateriels = new ArrayList<>();
+        mockMateriels.add(materielRepository.findById(1L));
+        bureaux.add(new Bureau(mockMateriels, 1, 1, 10, 20, true,
+            collaborateurRepository.findById(1L),planRepository.findById(1L)));
+        mockMateriels = new ArrayList<>();
+        mockMateriels.add(materielRepository.findById(2L));
+        bureaux.add(new Bureau(mockMateriels, 2, 2, 40, 25, false,
+            collaborateurRepository.findById(2L),planRepository.findById(2L)));
         bureauRepository.save(bureaux);
         LOG.info("FIN == Construction table BUREAU");
-
 
 
     }

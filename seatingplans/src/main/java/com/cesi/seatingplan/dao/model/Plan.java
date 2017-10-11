@@ -1,17 +1,24 @@
 package com.cesi.seatingplan.dao.model;
 
 
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
+@Entity
 public class Plan {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotNull
+    @Column(unique = true)
     private String libelle;
 
     private int version;
-
-    private List<Bureau> bureauList;
-
 
 
     public long getId() {
@@ -36,25 +43,15 @@ public class Plan {
 
     public int getVersion() { return version; }
 
-    public List<Bureau> getBureauList() {
-        return bureauList;
-    }
-
-    public void setBureauList(List<Bureau> bureauList) {
-        this.bureauList = bureauList;
-    }
-
-
 
     public Plan() {
 
     }
 
-    public Plan(String libelle) {
+    public Plan(String libelle, int version) {
         this.libelle = libelle;
+        this.version = version;
     }
-
-
 
     @Override
     public String toString() {
@@ -62,7 +59,6 @@ public class Plan {
                 "id=" + id +
                 ", libelle='" + libelle + '\'' +
                 ", version=" + version +
-                ", bureauList=" + bureauList +
                 '}';
     }
 }

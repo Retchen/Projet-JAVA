@@ -16,6 +16,7 @@ public class Batiment {
 
     private long id_type;
 
+    @OneToOne
     private Type type_materiel;
 
     public long getId() {
@@ -54,8 +55,10 @@ public class Batiment {
 
     }
 
-    public Batiment(String libelle) {
+    public Batiment(String libelle, long id_type, Type type_materiel) {
         this.libelle = libelle;
+        this.id_type = id_type;
+        this.type_materiel = type_materiel;
     }
 }
 

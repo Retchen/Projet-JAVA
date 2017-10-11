@@ -2,12 +2,21 @@ package com.cesi.seatingplan.dao.model;
 
 
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
+@Entity
 public class Bureau {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private long id_collab;
-
+    @OneToMany
     private List<Materiel> listMateriel;
 
     private int num_interne;
@@ -20,10 +29,12 @@ public class Bureau {
 
     private boolean sens;
 
+    @OneToOne
     private Collaborateur collaborateur;
 
+    @OneToOne
+    @JoinColumn(name = "id_plan")
     private Plan plan;
-
 
     public long getId() {
         return id;
@@ -31,14 +42,6 @@ public class Bureau {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getId_collab() {
-        return id_collab;
-    }
-
-    public void setId_collab(long id_collab) {
-        this.id_collab = id_collab;
     }
 
     public List<Materiel> getListMateriel() {
@@ -109,7 +112,15 @@ public class Bureau {
     public Bureau() {
     }
 
-    public Bureau(long id) {
-        this.id = id;
+    public Bureau(List<Materiel> listMateriel, int num_interne, int num_externe, int abs, int ord, boolean sens,
+        Collaborateur collaborateur, Plan plan) {
+        this.listMateriel = listMateriel;
+        this.num_interne = num_interne;
+        this.num_externe = num_externe;
+        this.abs = abs;
+        this.ord = ord;
+        this.sens = sens;
+        this.collaborateur = collaborateur;
+        this.plan = plan;
     }
 }

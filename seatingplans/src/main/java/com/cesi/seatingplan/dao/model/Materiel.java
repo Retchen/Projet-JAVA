@@ -14,9 +14,8 @@ public class Materiel {
     @Column(unique = true)
     private String libelle;
 
-    private long id_type;
+    @OneToOne
     private Type type_materiel;
-
 
     public long getId() {
         return id;
@@ -32,14 +31,6 @@ public class Materiel {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
-    }
-
-    public long getId_type() {
-        return id_type;
-    }
-
-    public void setId_type(long id_type) {
-        this.id_type = id_type;
     }
 
     public Type getType_materiel() {
@@ -59,8 +50,8 @@ public class Materiel {
         this.libelle = libelle;
     }
 
-    public Materiel(String libelle, long id_type) {
+    public Materiel(String libelle, Type type_materiel) {
         this.libelle = libelle;
-        this.id_type = id_type;
+        this.type_materiel = type_materiel;
     }
 }
