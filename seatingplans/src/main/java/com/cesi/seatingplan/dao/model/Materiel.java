@@ -58,4 +58,9 @@ public class Materiel {
     public Materiel(String libelle) {
         this.libelle = libelle;
     }
+
+    public Materiel(String libelle, long id_type) {
+        this.libelle = libelle;
+        this.id_type = id_type;
+    }
 }
